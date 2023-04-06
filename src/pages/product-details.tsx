@@ -9,7 +9,7 @@ const ProductDetail = () => {
       <SingleProductPage />
       <div className={style.link_Btn}>
         <button type="button">
-          <Link to="/">Get Back to homepage</Link>
+          <Link to="/react-gh-pages">Get Back to homepage</Link>
         </button>
       </div>
     </div>
