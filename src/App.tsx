@@ -6,8 +6,8 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/react-gh-pages" element={<HomePage />} />
-        <Route path="react-gh-pages/:slug" element={<ProductDetail />} />
+        <Route path="/e-commerce-app" element={<HomePage />} />
+        <Route path="e-commerce-app/:slug" element={<ProductDetail />} />
       </Routes>
     </BrowserRouter>
   );
