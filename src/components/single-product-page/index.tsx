@@ -1,21 +1,35 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { useGlobalContext } from "../../store";
+import { fetchProducts } from "../../store/productSlice";
 import { productDeatils } from "../product-listing-table";
 import style from "./style.module.css";
 
 export const SingleProductPage = () => {
-	const { slug } = useParams();
-	const { productsApi } = useGlobalContext();
-	const [addItem, setAddItem] = useState(1);
+	   const { slug } = useParams();
+	   const product: { products?: { products: productDeatils[] } } =
+	       useSelector((state) => state) ?? {};
+	   const productsApi = product?.products?.products ?? [];
+	   const dispatch = useDispatch();
+	   useEffect(() => {
+	       if (!productsApi?.length) {
+	           (async () => {
+	               await dispatch(fetchProducts());
+	           })();
+	       }
+	   }, []);
+	   const [addItem, setAddItem] = useState(1);
+	   let getSingleProductData = null;
+	   if (productsApi?.length) {
+	       getSingleProductData = productsApi?.find(
+	           (s: productDeatils) => s?.id === Number(slug),
+	       );
+	   }
+	
+	   if (!getSingleProductData) {
+	       return <p>loading...</p>;
+	   }
 
-	const getSingleProductData = productsApi?.find(
-		(s: productDeatils) => s?.id === Number(slug)
-	);
-
-	if(!getSingleProductData){
-		return <p>loading...</p>
-	}
 	return (
 		<>
 			<div className={style.product_Wrapper}>

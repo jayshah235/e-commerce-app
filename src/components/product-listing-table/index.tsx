@@ -1,5 +1,7 @@
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { useGlobalContext } from "../../store";
+import { fetchProducts } from "../../store/productSlice";
 import style from "./style.module.css";
 
 export type productDeatils = {
@@ -16,7 +18,15 @@ export type productDeatils = {
 };
 
 export const ProductList = () => {
-	const { productsApi } = useGlobalContext();
+	const product: { products?: { products: productDeatils[] } } =
+		useSelector((state) => state) ?? {};
+	const productsApi = product?.products?.products ?? [];
+	const dispatch = useDispatch();
+	useEffect(() => {
+		(async () => {
+			await dispatch(fetchProducts());
+		})();
+	}, []);
 
 	if (!productsApi?.length) {
 		return <p>loading...</p>
